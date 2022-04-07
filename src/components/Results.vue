@@ -29,6 +29,9 @@
         </div>
       </div>
     </div>
+    <div v-else-if="error">
+      <div class="my-4 text-sm">{{error}}</div>
+    </div>
     <div v-else>
       <div class="my-4 text-sm">No results found :(</div>
     </div>
@@ -104,6 +107,7 @@ export default defineComponent({
       start: 0,
       numResults: 0,
       lambdaUrl: import.meta.env.VITE_LAMBDA as string,
+      error: '',
     }
   },
   computed: {
@@ -146,6 +150,7 @@ export default defineComponent({
           }
         } else {
           this.results = []
+          this.error = 'Sorry! We\'re getting overwhelmed at the moment!'
         }
       }).catch((error) => {
         console.error('Error:', error)
