@@ -65,6 +65,7 @@
       </div>
     </h1>
   </div>
+  <div v-else class="h-36" />
 </template>
 
 <script lang="ts">
