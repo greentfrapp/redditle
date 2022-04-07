@@ -134,17 +134,22 @@ export default defineComponent({
         })
       }).then(async response => {
         const results = await response.json()
-        this.stats = results.stats
-        this.results = results.results
-        // Regex to extract number of results
-        const numResultsStr = results.stats.match(/\d+(,?\d+)* results/)
-        if (numResultsStr) {
-          this.numResults = parseInt(numResultsStr[0].replaceAll(',', ''))
+        if (results.stats) {
+          this.stats = results.stats
+          this.results = results.results
+          // Regex to extract number of results
+          const numResultsStr = results.stats.match(/\d+(,?\d+)* results/)
+          if (numResultsStr) {
+            this.numResults = parseInt(numResultsStr[0].replaceAll(',', ''))
+          } else {
+            this.numResults = 0
+          }
         } else {
-          this.numResults = 0
+          this.results = []
         }
       }).catch((error) => {
         console.error('Error:', error)
+        this.results = []
       }).finally(() => {
         this.loading = false
       })
