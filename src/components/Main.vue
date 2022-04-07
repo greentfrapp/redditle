@@ -8,7 +8,7 @@
         <SearchIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
       </div>
       <input autofocus v-model="query" type="text" name="query" @keyup.enter="submit"
-        placeholder="Try r/<subreddit> to search in a specific subreddit"
+        placeholder="Try prefixing with r/<subreddit> for a specific subreddit"
         class="block w-full border border-gray-300 rounded-full py-3 pl-12 hover:shadow-catche focus:shadow-around focus:ring-0 focus:border-white focus-visible:outline-none" />
     </div>
     <div>
