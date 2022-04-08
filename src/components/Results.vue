@@ -59,7 +59,7 @@
       <div v-if="hasNext" class="inline px-0 mx-0 flex flex-col w-max items-center cursor-pointer text-red-500"
         @click="paginate(currentPage+1)">
         d
-        <div class="text-sm font-sans" :class="currentPage === p + paginateStart ? '' : 'text-light-blue'">
+        <div class="text-sm font-sans text-light-blue">
           ...
         </div>
       </div>
