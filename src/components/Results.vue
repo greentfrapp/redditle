@@ -37,38 +37,47 @@
     </div>
   </div>
   <!-- Footer -->
-  <div v-if="numPages > 1" class="max-w-screen sm:max-w-2xl px-4 sm:px-0 sm:ml-48 mt-20 mb-36 text-gray-800">
+  <div class="max-w-screen sm:max-w-2xl px-4 sm:px-0 sm:ml-48 mt-20 mb-36 text-gray-800">
     <h1 class="font-medium text-3xl font-title mx-8 flex w-max mx-auto">
       <!-- Prev -->
-      <div v-if="currentPage !== 1" class="inline px-0 mx-0 flex flex-col w-max items-center mx-2 cursor-pointer" @click="paginate(currentPage-1)">
+      <div v-if="hasPrev" class="inline px-0 mx-0 flex flex-col w-max items-center mx-2 cursor-pointer" @click="paginate(currentPage-1)">
         <div class="flex items-center">
           &nbsp;
-          <ChevronLeftIcon class="h-5 w-5 cursor-pointer" @click="search" aria-hidden="true" />
+          <ChevronLeftIcon class="h-5 w-5 cursor-pointer" aria-hidden="true" />
           &nbsp;
         </div>
         <div class="text-sm text-light-blue font-sans">Prev</div>
       </div>
       <span class="text-red-500">re</span>
-      <div v-for="p in numPages" :key="p" class="inline px-0 mx-0 flex flex-col w-max items-center"
+      <div v-for="p in Math.min(currentPage, 9)" :key="p" class="inline px-0 mx-0 flex flex-col w-max items-center"
         :class="currentPage === p + paginateStart ? '' : 'cursor-pointer text-red-500'" @click="paginate(p + paginateStart)">
         d
         <div class="text-sm font-sans" :class="currentPage === p + paginateStart ? '' : 'text-light-blue'">
           {{ p + paginateStart }}
         </div>
       </div>
+      <div v-if="hasNext" class="inline px-0 mx-0 flex flex-col w-max items-center cursor-pointer text-red-500"
+        @click="paginate(currentPage+1)">
+        d
+        <div class="text-sm font-sans" :class="currentPage === p + paginateStart ? '' : 'text-light-blue'">
+          ...
+        </div>
+      </div>
+      <div v-else class="inline px-0 mx-0 flex flex-col w-max items-center text-red-500">
+        d
+      </div>
       <span class="text-red-500">it</span>le
       <!-- Next -->
-      <div v-if="currentPage !== numPages" class="inline px-0 mx-0 flex flex-col w-max items-center mx-2 cursor-pointer" @click="paginate(currentPage+1)">
+      <div v-if="hasNext" class="inline px-0 mx-0 flex flex-col w-max items-center mx-2 cursor-pointer" @click="paginate(currentPage+1)">
         <div class="flex items-center">
           &nbsp;
-          <ChevronRightIcon class="h-5 w-5 cursor-pointer" @click="search" aria-hidden="true" />
+          <ChevronRightIcon class="h-5 w-5 cursor-pointer" aria-hidden="true" />
           &nbsp;
         </div>
         <div class="text-sm text-light-blue font-sans">Next</div>
       </div>
     </h1>
   </div>
-  <div v-else class="h-36" />
 </template>
 
 <script lang="ts">
@@ -108,6 +117,8 @@ export default defineComponent({
       numResults: 0,
       lambdaUrl: import.meta.env.VITE_LAMBDA as string,
       error: '',
+      hasPrev: false,
+      hasNext: false,
     }
   },
   computed: {
@@ -118,8 +129,7 @@ export default defineComponent({
       return Math.ceil((this.start + 1) / 10)
     },
     paginateStart ():number {
-      const paginateEnd = Math.max(Math.min(this.currentPage + 4, (this.numResults / 10)), 10)
-      return paginateEnd - 10
+      return Math.max(0, this.currentPage - 9)
     },
   },
   methods: {
@@ -138,16 +148,10 @@ export default defineComponent({
         })
       }).then(async response => {
         const results = await response.json()
-        if (results.stats) {
-          this.stats = results.stats
+        if (results.results) {
           this.results = results.results
-          // Regex to extract number of results
-          const numResultsStr = results.stats.match(/\d+(,?\d+)* results/)
-          if (numResultsStr) {
-            this.numResults = parseInt(numResultsStr[0].replaceAll(',', ''))
-          } else {
-            this.numResults = 0
-          }
+          this.hasPrev = results.has_prev
+          this.hasNext = results.has_next
         } else {
           this.results = []
           this.error = 'Sorry! We\'re getting overwhelmed at the moment!'
