@@ -11,8 +11,9 @@
         placeholder="Try prefixing with r/<subreddit> for a specific subreddit"
         class="block w-full border border-gray-300 rounded-full py-3 pl-12 hover:shadow-catche focus:shadow-around focus:ring-0 focus:border-white focus-visible:outline-none" />
     </div>
-    <div>
+    <div class="flex flex-col gap-2">
       <button class="text-gray-800 bg-gray-100 px-4 py-2 rounded hover:shadow-around border border-gray-300" @click="submit">Search</button>
+      <a class="w-max text-red-500 text-sm" href="https://www.producthunt.com/posts/redditle" target="_blank">(Psst we're on ProductHunt!)</a>
     </div>
   </div>
 </template>
