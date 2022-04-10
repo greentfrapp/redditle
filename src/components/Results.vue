@@ -14,9 +14,13 @@
         <SearchIcon class="h-5 w-5 text-light-blue cursor-pointer" @click="submit" aria-hidden="true" />
       </div>
     </div>
+    <div class="px-4 flex gap-2">
+      <input class="cursor-pointer" type="checkbox" id="oldreddit" v-model="useOldReddit" />
+      <label class="cursor-pointer" for="oldreddit">Use old.reddit.com</label>
+    </div>
   </div>
   <!-- Results -->
-  <div class="max-w-screen sm:max-w-2xl px-4 sm:px-0 sm:ml-48 mt-36 sm:mt-32 text-gray-800">
+  <div class="max-w-screen sm:max-w-2xl px-4 sm:px-0 sm:ml-48 mt-44 sm:mt-32 text-gray-800">
     <div v-if="loading" class="my-4 text-sm">
       Loading...
     </div>
@@ -24,7 +28,7 @@
       <div class="my-4 text-sm">{{stats}}</div>
       <div class="flex flex-col gap-8">
         <div v-for="(result, i) in results" :key="i">
-          <a :href="result.href" class="text-link-blue text-xl">{{ result.title }}</a>
+          <a :href="useOldReddit ? result.href.replace('www.reddit.com', 'old.reddit.com') : result.href" class="text-link-blue text-xl">{{ result.title }}</a>
           <p>{{ result.desc }}</p>
         </div>
       </div>
@@ -92,6 +96,8 @@ interface Result {
 
 export default defineComponent({
   mounted () {
+    const useOldReddit = localStorage.getItem('useOldReddit')
+    if (useOldReddit === 'true') this.useOldReddit = true
     window.addEventListener("scroll", () => {
       this.isAtTop = window.scrollY === 0
     }, false)
@@ -119,6 +125,7 @@ export default defineComponent({
       error: '',
       hasPrev: false,
       hasNext: false,
+      useOldReddit: false,
     }
   },
   computed: {
@@ -131,6 +138,15 @@ export default defineComponent({
     paginateStart ():number {
       return Math.max(0, this.currentPage - 9)
     },
+  },
+  watch: {
+    useOldReddit (newValue) {
+      if (newValue) {
+        localStorage.setItem('useOldReddit', 'true')
+      } else {
+        localStorage.setItem('useOldReddit', 'false')
+      }
+    }
   },
   methods: {
     submit () {
