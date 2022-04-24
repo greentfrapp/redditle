@@ -24,7 +24,7 @@
         <button class=" px-4 py-2 rounded hover:shadow-around border"
           :class="[darkMode ? 'bg-neutral-800 text-neutral-300 border-neutral-700' : 'bg-neutral-100 text-neutral-800 border-neutral-300']"
           @click="submit">Search</button>
-        <a class="w-max text-sm" :class="darkMode ? 'text-red-300' : 'text-red-500'" href="https://www.producthunt.com/posts/redditle" target="_blank">(Psst we're on ProductHunt!)</a>
+        <a class="w-max text-sm" :class="darkMode ? 'text-red-300' : 'text-red-500'" href="https://github.com/sponsors/greentfrapp" target="_blank">Buy me a monthly coffee!</a>
       </div>
     </div>
   </div>
