@@ -13,6 +13,7 @@ module.exports = {
       },
       colors: {
         'light-blue': '#075DFF',
+        'dark-blue': '#6591e6',
         'link-blue': '#0E00A8',
       },
       boxShadow: {
@@ -23,5 +24,7 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }
