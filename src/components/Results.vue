@@ -48,6 +48,7 @@
     </div>
     <div v-else-if="error">
       <div class="my-4 text-sm">{{error}}</div>
+      <div class="my-4 text-sm">If this keeps happening, drop me a message on Twitter <a href="https://twitter.com/sweekiat_lim">@sweekiat_lim</a></div>
     </div>
     <div v-else>
       <div class="my-4 text-sm">No results found :(</div>
