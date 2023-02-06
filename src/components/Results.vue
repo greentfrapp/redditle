@@ -41,7 +41,7 @@
       <div class="my-4 text-sm">{{stats}}</div>
       <div class="flex flex-col gap-8">
         <div v-for="(result, i) in results" :key="i">
-          <a :href="useOldReddit ? result.href.replace('www.reddit.com', 'old.reddit.com') : result.href" class="text-xl" :class="darkMode ? 'text-dark-blue' : 'text-link-blue'">{{ result.title }}</a>
+          <a :href="useOldReddit ? result.href.replace('www.reddit.com', 'old.reddit.com') : result.href" class="text-xl" :class="darkMode ? 'text-dark-blue visited:text-link-visited-dark' : 'text-link-blue visited:text-link-visited'">{{ result.title }}</a>
           <p>{{ result.desc }}</p>
         </div>
       </div>
